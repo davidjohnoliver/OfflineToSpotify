@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "OfflineToSpotify (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "OfflineToSpotify (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
