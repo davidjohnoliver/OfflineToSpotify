@@ -23,6 +23,8 @@ namespace OfflineToSpotify
 	/// </summary>
 	public sealed partial class MainWindow : Window
 	{
+	private MainWindowViewModel VM { get; } = new();
+
 		public MainWindow()
 		{
 			this.InitializeComponent();
