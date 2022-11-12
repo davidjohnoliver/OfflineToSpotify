@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace OfflineToSpotify.Presentation
 {
-	class MainWindowViewModel : ViewModelBase
+	class ImportPageViewModel : ViewModelBase
 	{
 		private string? _playlistFilePath;
 		public string? PlaylistFilePath
@@ -28,7 +28,7 @@ namespace OfflineToSpotify.Presentation
 		public ICommand ImportPlaylistCommand { get; }
 		public ICommand OpenExistingDBCommand { get; }
 
-		public MainWindowViewModel()
+		public ImportPageViewModel()
 		{
 			ImportPlaylistCommand = SimpleCommand.Create(ImportPlaylist);
 			OpenExistingDBCommand = SimpleCommand.Create(OpenExistingDB);

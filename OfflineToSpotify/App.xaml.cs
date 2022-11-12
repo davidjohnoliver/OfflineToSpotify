@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
+using OfflineToSpotify.Pages;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -44,6 +45,10 @@ namespace OfflineToSpotify
 		{
 			m_window = new MainWindow();
 			m_window.Activate();
+
+			var frame = new Frame();
+			m_window.Content = frame;
+			frame.Navigate(typeof(ImportPage));
 		}
 
 		private Window m_window;
