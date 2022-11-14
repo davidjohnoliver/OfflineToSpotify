@@ -1,0 +1,43 @@
+﻿<Page x:Class="OfflineToSpotify.Pages.ShowImportsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:OfflineToSpotify.Pages"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:model="using:OfflineToSpotify.Model"
+      mc:Ignorable="d"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0"
+                   Margin="10"
+                   FontSize="20"
+                   Text="Songs in playlist:" />
+        <ListView Grid.Row="1"
+                  Margin="10"
+                  Background="White"
+                  ItemsSource="{x:Bind VM.Tracks, Mode=OneWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="model:Track">
+                    <Border BorderBrush="DarkGray"
+                            BorderThickness="0,0,0,1">
+                        <TextBlock>
+                        <Run Text="{x:Bind Id}" />. <Run Text="{x:Bind TrackInfo.Artist}" />, <Run FontStyle="Italic"
+                                                                       Text="{x:Bind TrackInfo.Title}" /> <Run FontSize="10"
+                                                                                                               Text="{x:Bind TrackInfo.Album}" />
+                        </TextBlock>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Grid.Row="2"
+                FontSize="16"
+                Margin="50,10,10,10"
+                Content="Continue" />
+    </Grid>
+</Page>

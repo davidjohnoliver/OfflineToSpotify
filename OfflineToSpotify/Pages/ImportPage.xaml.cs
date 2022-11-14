@@ -24,11 +24,13 @@ namespace OfflineToSpotify.Pages
 	/// </summary>
 	public sealed partial class ImportPage : Page
 	{
-		private ImportPageViewModel VM { get; } = new();
+		private ImportPageViewModel VM { get; }
 
 		public ImportPage()
 		{
 			this.InitializeComponent();
+
+			VM = new(new(this));
 		}
 	}
 }

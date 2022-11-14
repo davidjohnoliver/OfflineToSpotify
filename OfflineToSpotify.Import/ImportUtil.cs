@@ -9,11 +9,11 @@ namespace OfflineToSpotify.Import;
 
 public static class ImportUtil
 {
-	public static IEnumerable<TrackInfo> ImportPlaylist(string playlistPath)
+	public static IEnumerable<(TrackInfo TrackInfo, string FilePath)> ImportPlaylist(string playlistPath)
 	{
 		foreach (var line in File.ReadLines(playlistPath))
 		{
-			yield return ImportTrack(line);
+			yield return (ImportTrack(line), line);
 		}
 	}
 
