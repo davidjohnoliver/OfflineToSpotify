@@ -38,6 +38,7 @@
         <Button Grid.Row="2"
                 FontSize="16"
                 Margin="50,10,10,10"
-                Content="Continue" />
+                Content="Continue"
+                Click="{x:Bind VM.OnContinue}"/>
     </Grid>
 </Page>

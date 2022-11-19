@@ -10,10 +10,12 @@
     <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
+	  <!--<LangVersion>8.0</LangVersion>-->
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Pages\ImportPage.xaml" />
     <None Remove="Pages\ShowImportsPage.xaml" />
+    <None Remove="Pages\SpotifyMatchesPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +46,11 @@
     <ProjectReference Include="..\OfflineToSpotify.Import\OfflineToSpotify.Import.csproj" />
     <ProjectReference Include="..\OfflineToSpotify.Model\OfflineToSpotify.Model.csproj" />
     <ProjectReference Include="..\OfflineToSpotify.Spotify\OfflineToSpotify.Spotify.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\SpotifyMatchesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\ShowImportsPage.xaml">

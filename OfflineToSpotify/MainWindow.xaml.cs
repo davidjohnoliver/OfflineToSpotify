@@ -30,5 +30,4 @@ public sealed partial class MainWindow : Window
 	{
 		this.InitializeComponent();
 	}
-	}
 }

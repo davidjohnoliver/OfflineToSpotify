@@ -14,32 +14,32 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace OfflineToSpotify.Pages;
-
-/// <summary>
-/// An empty page that can be used on its own or navigated to within a Frame.
-/// </summary>
-public sealed partial class ShowImportsPage : Page
+namespace OfflineToSpotify.Pages
 {
-	private ShowImportsPageViewModel? VM { get; set; }
-	public ShowImportsPage()
+	/// <summary>
+	/// An empty page that can be used on its own or navigated to within a Frame.
+	/// </summary>
+	public sealed partial class SpotifyMatchesPage : Page
 	{
-		this.InitializeComponent();
-	}
+		private SpotifyMatchesPageViewModel? VM { get; set; }
+		public SpotifyMatchesPage()
+		{
+			this.InitializeComponent();
+		}
 
-	protected override void OnNavigatedTo(NavigationEventArgs e)
-	{
-		base.OnNavigatedTo(e);
+		protected override void OnNavigatedTo(NavigationEventArgs e)
+		{
+			base.OnNavigatedTo(e);
 
-		var db = (PlaylistDB)e.Parameter;
+			var db = (PlaylistDB)e.Parameter;
 
-		VM = new(db, new(this));
+			VM = new(db);
+		}
 	}
 }
