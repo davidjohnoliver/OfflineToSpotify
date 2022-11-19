@@ -8,7 +8,7 @@
       mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Margin="40">
+    <Grid Margin="80">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -19,7 +19,7 @@
                    FontSize="20"
                    Text="Songs in playlist:" />
         <ListView Grid.Row="1"
-                  Margin="10"
+                  Margin="40"
                   Background="White"
                   ItemsSource="{x:Bind VM.Tracks, Mode=OneWay}">
             <ListView.ItemTemplate>

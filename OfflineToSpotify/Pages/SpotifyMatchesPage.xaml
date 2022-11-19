@@ -6,6 +6,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <ResourceDictionary Source="SpotifyMatchesItemTemplate" />
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -19,6 +22,7 @@
                    FontSize="16" />
         <ListView  Grid.Row="1"
                    Margin="20,0,20,0"
+                   ItemTemplate="{StaticResource SpotifyMatchesItemTemplate}"
                    ItemsSource="{x:Bind VM.CurrentTracks}" />
         <StackPanel Grid.Row="2"
                     Orientation="Horizontal"

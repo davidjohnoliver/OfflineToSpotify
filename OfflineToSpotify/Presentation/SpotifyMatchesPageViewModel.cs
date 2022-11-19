@@ -17,8 +17,8 @@ namespace OfflineToSpotify.Presentation
 
 		private readonly PlaylistDB _playlistDB;
 		private Track[]? _allTracks;
-		private readonly ObservableCollection<Track> _currentTracks = new();
-		public IEnumerable<Track> CurrentTracks => _currentTracks;
+		private readonly ObservableCollection<TrackItemViewModel> _currentTracks = new();
+		public IEnumerable<TrackItemViewModel> CurrentTracks => _currentTracks;
 
 		private int _currentPage = 0;
 		public int CurrentPage
@@ -81,7 +81,7 @@ namespace OfflineToSpotify.Presentation
 			foreach (var track in currentTracks)
 			{
 				// Consider optimized observable collection implementation w/ AddRange if this is too slow
-				_currentTracks.Add(track);
+				_currentTracks.Add(new TrackItemViewModel(track));
 			}
 		}
 	}
