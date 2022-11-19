@@ -30,6 +30,7 @@
             <Button Click="{x:Bind VM.DecrementPage}">
                 <SymbolIcon Symbol="Back" />
             </Button>
+            <TextBlock Margin="40,0,40,0"><Run Text="{x:Bind VM.CurrentPage, Mode=OneWay}" /> of <Run Text="{x:Bind VM.MaxPage, Mode=OneWay}" /></TextBlock>
             <Button Click="{x:Bind VM.IncrementPage}">
                 <SymbolIcon Symbol="Forward" />
             </Button>

@@ -34,7 +34,7 @@ namespace OfflineToSpotify.Presentation
 		}
 
 		private int MinPage => 0;
-		private int MaxPage => (_allTracks?.Length - 1) / PageSize ?? 0;
+		public int MaxPage => (_allTracks?.Length - 1) / PageSize ?? 0;
 
 		public SpotifyMatchesPageViewModel(PlaylistDB playlistDB)
 		{
@@ -47,6 +47,8 @@ namespace OfflineToSpotify.Presentation
 		{
 			// TODO: error handling
 			_allTracks = (await _playlistDB.GetTracks(CancellationToken.None)).ToArray();
+			var _ = 0;
+			OnValueSet(ref _, 1, nameof(MaxPage)); // Hacky, but it works
 			UpdateCurrentTracks();
 		}
 
