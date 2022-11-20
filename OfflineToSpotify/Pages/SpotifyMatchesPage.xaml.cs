@@ -37,9 +37,9 @@ namespace OfflineToSpotify.Pages
 		{
 			base.OnNavigatedTo(e);
 
-			var db = (PlaylistDB)e.Parameter;
+			var param = ((PlaylistDB DB, string Token))e.Parameter;
 
-			VM = new(db);
+			VM = new(param.DB, param.Token);
 		}
 	}
 }

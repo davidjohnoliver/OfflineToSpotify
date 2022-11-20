@@ -1,6 +1,7 @@
 ﻿#nullable enable
 
 using OfflineToSpotify.Model;
+using OfflineToSpotify.Spotify;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,6 +17,8 @@ namespace OfflineToSpotify.Presentation
 		private const int PageSize = 20;
 
 		private readonly PlaylistDB _playlistDB;
+		private readonly SearchHelper _searchHelper;
+
 		private Track[]? _allTracks;
 		private readonly ObservableCollection<TrackItemViewModel> _currentTracks = new();
 		public IEnumerable<TrackItemViewModel> CurrentTracks => _currentTracks;
@@ -36,9 +39,10 @@ namespace OfflineToSpotify.Presentation
 		private int MinPage => 0;
 		public int MaxPage => (_allTracks?.Length - 1) / PageSize ?? 0;
 
-		public SpotifyMatchesPageViewModel(PlaylistDB playlistDB)
+		public SpotifyMatchesPageViewModel(PlaylistDB playlistDB, string token)
 		{
 			_playlistDB = playlistDB;
+			_searchHelper = new(new(token));
 
 			Initialize();
 		}

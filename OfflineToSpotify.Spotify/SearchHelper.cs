@@ -21,7 +21,7 @@ namespace OfflineToSpotify.Spotify
 		public Task<IList<SpotifyTrackInfo>> SearchTrack(TrackInfo trackInfo, int matches)
 			=> SearchTrack(trackInfo.Title, trackInfo.Artist, trackInfo.Album, matches);
 
-		public async Task<IList<SpotifyTrackInfo>> SearchTrack(string title, string artist, string? album, int matches)
+		private async Task<IList<SpotifyTrackInfo>> SearchTrack(string title, string artist, string? album, int matches)
 		{
 			var query = BuildQuery(title, artist, album);
 

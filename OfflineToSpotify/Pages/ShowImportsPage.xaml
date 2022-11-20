@@ -13,6 +13,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
                    Margin="10"
@@ -28,17 +29,26 @@
                             BorderThickness="0,0,0,1">
                         <TextBlock>
                         <Run Text="{x:Bind Id}" />. <Run Text="{x:Bind TrackInfo.Artist}" />, <Run FontStyle="Italic"
-                                                                       Text="{x:Bind TrackInfo.Title}" /> <Run FontSize="10"
-                                                                                                               Text="{x:Bind TrackInfo.Album}" />
+                                                                                                   Text="{x:Bind TrackInfo.Title}" /> <Run FontSize="10"
+                                                                                                                                           Text="{x:Bind TrackInfo.Album}" />
                         </TextBlock>
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Grid.Row="2"
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal">
+            <TextBox PlaceholderText="enter Spotify token..."
+                     Text="{x:Bind VM.SpotifyToken, Mode=TwoWay}" />
+            <HyperlinkButton Margin="50,10,10,10"
+                             Content="Get token"
+                             NavigateUri="https://developer.spotify.com/console/get-search-item/" />
+
+        </StackPanel>
+        <Button Grid.Row="3"
+                Margin="10"
                 FontSize="16"
-                Margin="50,10,10,10"
-                Content="Continue"
-                Click="{x:Bind VM.OnContinue}"/>
+                Content="Find matches on Spotify"
+                Click="{x:Bind VM.OnContinue}" />
     </Grid>
 </Page>
