@@ -31,7 +31,7 @@ namespace OfflineToSpotify.Presentation
 			{
 				if (OnValueSet(ref _currentPage, value))
 				{
-					UpdateCurrentTracks();
+					LaunchUpdateCurrentTracks();
 				}
 			}
 		}
@@ -53,7 +53,7 @@ namespace OfflineToSpotify.Presentation
 			_allTracks = (await _playlistDB.GetTracks(CancellationToken.None)).ToArray();
 			var _ = 0;
 			OnValueSet(ref _, 1, nameof(MaxPage)); // Hacky, but it works
-			UpdateCurrentTracks();
+			await UpdateCurrentTracks();
 		}
 
 		public void DecrementPage()
@@ -76,7 +76,12 @@ namespace OfflineToSpotify.Presentation
 			CurrentPage++;
 		}
 
-		private void UpdateCurrentTracks()
+		private async void LaunchUpdateCurrentTracks()
+		{
+			await UpdateCurrentTracks();
+		}
+
+		private async Task UpdateCurrentTracks()
 		{
 			if (_allTracks is null)
 			{
@@ -86,6 +91,7 @@ namespace OfflineToSpotify.Presentation
 			var currentTracks = _allTracks[(CurrentPage * PageSize)..((CurrentPage + 1) * PageSize)];
 			foreach (var track in currentTracks)
 			{
+				await TrackManager.UpdateMissingMatches(track, _playlistDB, _searchHelper, 5);
 				// Consider optimized observable collection implementation w/ AddRange if this is too slow
 				_currentTracks.Add(new TrackItemViewModel(track));
 			}

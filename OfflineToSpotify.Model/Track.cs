@@ -16,6 +16,7 @@ namespace OfflineToSpotify.Model
 		public List<SpotifyTrackInfo> SpotifyMatches { get; set; } = new List<SpotifyTrackInfo>();
 		public SpotifyTrackInfo? CandidateMatch { get; set; }
 		public bool IsCandidateConfirmed { get; set; }
+		public bool WereNoCandidatesFound { get; set; }
 
 		public override string ToString()
 		{

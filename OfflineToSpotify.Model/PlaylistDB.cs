@@ -32,6 +32,14 @@ namespace OfflineToSpotify.Model
 			return tracks ?? throw new InvalidOperationException();
 		}
 
+		public async Task UpdateTrack(Track track)
+		{
+			await Task.Run(() =>
+			{
+				_trackCollection.Update(track);
+			});
+		}
+
 		public void Dispose()
 		{
 			_liteDatabase.Dispose();

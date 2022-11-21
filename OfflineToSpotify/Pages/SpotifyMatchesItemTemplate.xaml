@@ -3,7 +3,47 @@
                     xmlns:local="using:OfflineToSpotify.Pages"
                     xmlns:presentation="using:OfflineToSpotify.Presentation">
     <DataTemplate x:Key="SpotifyMatchesItemTemplate">
-        <TextBlock Text="{Binding Track}" Foreground="Green"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0"><Run Text="{Binding Title}" />
+                <Run Text="{Binding Artist}"
+                     FontStyle="Italic" /></TextBlock>
+            <ListView Grid.Column="1"
+                      ItemsSource="{Binding Matches}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid BorderBrush="DarkSlateGray"
+                              BorderThickness="2"
+                              CornerRadius="4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0"
+                                       HorizontalAlignment="Center"
+                                       Text="{Binding Info.Title}" />
+                            <TextBlock Grid.Row="1"
+                                       HorizontalAlignment="Center"
+                                       Text="{Binding Info.Artist}" />
+                            <TextBlock Grid.Row="2"
+                                       HorizontalAlignment="Center"
+                                       Text="{Binding Info.Album}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
     </DataTemplate>
 
 </ResourceDictionary>
