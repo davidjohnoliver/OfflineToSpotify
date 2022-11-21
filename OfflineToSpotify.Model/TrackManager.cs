@@ -16,7 +16,7 @@ namespace OfflineToSpotify.Model
 				return;
 			}
 
-			var matches = await searchHelper.SearchTrack(track.TrackInfo, matchesCount);
+			var matches = await searchHelper.SearchTrack(track.TrackInfo, matchesCount, QueryFormat.SimpleNoAlbum);
 			track.SpotifyMatches = matches.ToList();
 			if (matches.Count == 0)
 			{

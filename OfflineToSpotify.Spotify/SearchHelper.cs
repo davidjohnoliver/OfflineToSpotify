@@ -18,19 +18,26 @@ namespace OfflineToSpotify.Spotify
 			_client = spotifyClient;
 		}
 
-		public Task<IList<SpotifyTrackInfo>> SearchTrack(TrackInfo trackInfo, int matches)
-			=> SearchTrack(trackInfo.Title, trackInfo.Artist, trackInfo.Album, matches);
+		public Task<IList<SpotifyTrackInfo>> SearchTrack(TrackInfo trackInfo, int matches, QueryFormat queryFormat)
+			=> SearchTrack(trackInfo.Title, trackInfo.Artist, trackInfo.Album, matches, queryFormat);
 
-		private async Task<IList<SpotifyTrackInfo>> SearchTrack(string title, string artist, string? album, int matches)
+		private async Task<IList<SpotifyTrackInfo>> SearchTrack(string title, string artist, string? album, int matches, QueryFormat queryFormat)
 		{
-			var query = BuildQuery(title, artist, album);
+			var query = queryFormat switch
+			{
+				QueryFormat.SimpleWithAlbum => $"{title} {artist} {album}",
+				QueryFormat.SimpleNoAlbum => $"{title} {artist}",
+				QueryFormat.StructuredWithAlbum => BuildStructuredQuery(title, artist, album),
+				QueryFormat.StructuredNoAlbum => BuildStructuredQuery(title, artist, null),
+				_ => throw new ArgumentException()
+			};
 
 			var item = await _client.Search.Item(new SearchRequest(SearchRequest.Types.Track, query));
 
 			return (IList<SpotifyTrackInfo>?)item.Tracks.Items?.Take(matches).Select(FullTrackExtensions.ToTrackInfo).ToList() ?? Array.Empty<SpotifyTrackInfo>();
 		}
 
-		private static string BuildQuery(string title, string artist, string? album)
+		private static string BuildStructuredQuery(string title, string artist, string? album)
 		{
 			var sb = new StringBuilder();
 			AppendQueryField(sb, "title", title);
