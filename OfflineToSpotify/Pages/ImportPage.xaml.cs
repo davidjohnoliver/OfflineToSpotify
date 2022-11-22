@@ -30,7 +30,7 @@ namespace OfflineToSpotify.Pages
 		{
 			this.InitializeComponent();
 
-			VM = new(new(this));
+			VM = new(new(this), new VisibilityProgressIndicator(ProgressView));
 		}
 	}
 }

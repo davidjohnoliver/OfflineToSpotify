@@ -27,6 +27,7 @@ namespace OfflineToSpotify.Presentation
 
 		private string? _dbFilePath;
 		private readonly Navigator<PlaylistDB> _navigator;
+		private readonly IProgressIndicator _progressIndicator;
 
 		public string? DBFilePath
 		{
@@ -37,32 +38,35 @@ namespace OfflineToSpotify.Presentation
 		public ICommand ImportPlaylistCommand { get; }
 		public ICommand OpenExistingDBCommand { get; }
 
-		public ImportPageViewModel(Navigator<PlaylistDB> navigator)
+		public ImportPageViewModel(Navigator<PlaylistDB> navigator, IProgressIndicator progressIndicator)
 		{
 			ImportPlaylistCommand = SimpleCommand.Create(ImportPlaylist);
 			OpenExistingDBCommand = SimpleCommand.Create(OpenExistingDB);
 			_navigator = navigator;
-
+			_progressIndicator = progressIndicator;
 			LoadSettings();
 		}
 
 		private async void ImportPlaylist()
 		{
-			if (string.IsNullOrWhiteSpace(PlaylistFilePath))
+			using (_progressIndicator.ShowIndicator())
 			{
-				return;
+				if (string.IsNullOrWhiteSpace(PlaylistFilePath))
+				{
+					return;
+				}
+				if (string.IsNullOrWhiteSpace(DBFilePath))
+				{
+					return;
+				}
+
+				var tracks = ImportUtil.ImportPlaylist(PlaylistFilePath);
+				var db = await PlaylistDB.InitializeFromImport(tracks, DBFilePath);
+
+				SaveSettings();
+
+				_navigator.Navigate<ShowImportsPage>(db);
 			}
-			if (string.IsNullOrWhiteSpace(DBFilePath))
-			{
-				return;
-			}
-
-			var tracks = ImportUtil.ImportPlaylist(PlaylistFilePath);
-			var db = await PlaylistDB.InitializeFromImport(tracks, DBFilePath);
-
-			SaveSettings();
-
-			_navigator.Navigate<ShowImportsPage>(db);
 		}
 
 		private void LoadSettings()
