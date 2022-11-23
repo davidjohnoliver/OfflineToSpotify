@@ -39,7 +39,7 @@ namespace OfflineToSpotify.Pages
 
 			var param = ((PlaylistDB DB, string Token))e.Parameter;
 
-			VM = new(param.DB, param.Token);
+			VM = new(new VisibilityProgressIndicator(ProgressView), param.DB, param.Token);
 		}
 	}
 }

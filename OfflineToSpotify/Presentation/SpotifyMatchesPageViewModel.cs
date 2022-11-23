@@ -15,7 +15,7 @@ namespace OfflineToSpotify.Presentation
 	sealed class SpotifyMatchesPageViewModel : ViewModelBase
 	{
 		private const int PageSize = 20;
-
+		private readonly IProgressIndicator _progressIndicator;
 		private readonly PlaylistDB _playlistDB;
 		private readonly SearchHelper _searchHelper;
 
@@ -39,8 +39,9 @@ namespace OfflineToSpotify.Presentation
 		private int MinPage => 0;
 		public int MaxPage => (_allTracks?.Length - 1) / PageSize ?? 0;
 
-		public SpotifyMatchesPageViewModel(PlaylistDB playlistDB, string token)
+		public SpotifyMatchesPageViewModel(IProgressIndicator progressIndicator, PlaylistDB playlistDB, string token)
 		{
+			_progressIndicator = progressIndicator;
 			_playlistDB = playlistDB;
 			_searchHelper = new(new(token));
 
@@ -91,9 +92,9 @@ namespace OfflineToSpotify.Presentation
 			var currentTracks = _allTracks[(CurrentPage * PageSize)..((CurrentPage + 1) * PageSize)];
 			foreach (var track in currentTracks)
 			{
-				await TrackManager.UpdateMissingMatches(track, _playlistDB, _searchHelper, 5);
+				await TrackManager.UpdateMissingMatches(track, _playlistDB, _searchHelper, 3);
 				// Consider optimized observable collection implementation w/ AddRange if this is too slow
-				_currentTracks.Add(new TrackItemViewModel(track));
+				_currentTracks.Add(new(track, _playlistDB, _progressIndicator));
 			}
 		}
 	}

@@ -11,29 +11,38 @@
     </Page.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0"
-                   Margin="20"
-                   Text="Select Spotify matches"
-                   FontSize="16" />
-        <ListView  Grid.Row="1"
-                   Margin="20,0,20,0"
-                   ItemTemplate="{StaticResource SpotifyMatchesItemTemplate}"
-                   ItemsSource="{x:Bind VM.CurrentTracks}" />
-        <StackPanel Grid.Row="2"
-                    Orientation="Horizontal"
-                    Margin="20">
-            <Button Click="{x:Bind VM.DecrementPage}">
-                <SymbolIcon Symbol="Back" />
-            </Button>
-            <TextBlock Margin="40,0,40,0"><Run Text="{x:Bind VM.CurrentPage, Mode=OneWay}" /> of <Run Text="{x:Bind VM.MaxPage, Mode=OneWay}" /></TextBlock>
-            <Button Click="{x:Bind VM.IncrementPage}">
-                <SymbolIcon Symbol="Forward" />
-            </Button>
-        </StackPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0"
+                       Margin="20"
+                       Text="Select Spotify matches"
+                       FontSize="16" />
+            <ListView  Grid.Row="1"
+                       Margin="20,0,20,0"
+                       ItemTemplate="{StaticResource SpotifyMatchesItemTemplate}"
+                       ItemsSource="{x:Bind VM.CurrentTracks}" />
+            <StackPanel Grid.Row="2"
+                        Orientation="Horizontal"
+                        Margin="20">
+                <Button Click="{x:Bind VM.DecrementPage}">
+                    <SymbolIcon Symbol="Back" />
+                </Button>
+                <TextBlock Margin="40,0,40,0"><Run Text="{x:Bind VM.CurrentPage, Mode=OneWay}" /> of <Run Text="{x:Bind VM.MaxPage, Mode=OneWay}" /></TextBlock>
+                <Button Click="{x:Bind VM.IncrementPage}">
+                    <SymbolIcon Symbol="Forward" />
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Border x:Name="ProgressView"
+                Visibility="Collapsed"
+                Background="#33000000">
+            <ProgressRing IsActive="True"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center" />
+        </Border>
     </Grid>
 </Page>

@@ -14,7 +14,8 @@
                 <Run Text="{Binding Artist}"
                      FontStyle="Italic" /></TextBlock>
             <ListView Grid.Column="1"
-                      ItemsSource="{Binding Matches}">
+                      ItemsSource="{Binding Matches}"
+                      SelectedItem="{Binding CandidateMatch, Mode=TwoWay}">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" />

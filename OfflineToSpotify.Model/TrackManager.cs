@@ -22,6 +22,10 @@ namespace OfflineToSpotify.Model
 			{
 				track.WereNoCandidatesFound = true;
 			}
+			else
+			{
+				track.CandidateMatch = matches.First();
+			}
 
 			await db.UpdateTrack(track);
 		}
