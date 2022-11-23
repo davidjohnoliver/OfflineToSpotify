@@ -18,6 +18,8 @@ namespace OfflineToSpotify.Presentation
 
 		public string? Title => Track.TrackInfo?.Title;
 
+		public string? Album => Track.TrackInfo?.Album;
+
 		public IEnumerable<MatchItemViewModel> Matches { get; }
 
 		private MatchItemViewModel? _candidateMatch;

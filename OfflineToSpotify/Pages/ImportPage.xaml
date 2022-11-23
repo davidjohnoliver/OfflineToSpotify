@@ -36,7 +36,7 @@
                 <Button Margin="2"
                         Content="Import playlist"
                         Command="{x:Bind VM.ImportPlaylistCommand}" />
-                <Button Margin="2"
+                <Button Margin="30,2,2,2"
                         Content="Open previously-imported playlist"
                         Command="{x:Bind VM.OpenExistingDBCommand}" />
             </StackPanel>

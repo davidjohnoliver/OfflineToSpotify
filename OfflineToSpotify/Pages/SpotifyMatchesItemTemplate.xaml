@@ -5,25 +5,38 @@
     <DataTemplate x:Key="SpotifyMatchesItemTemplate">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto"
+                                  MinWidth="250" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0"><Run Text="{Binding Title}" />
+            <TextBlock Grid.Column="0"
+                       TextAlignment="Center">
+                <Run Text="{Binding Title}" />
+                <LineBreak />
                 <Run Text="{Binding Artist}"
-                     FontStyle="Italic" /></TextBlock>
+                     FontStyle="Italic" />
+                <LineBreak />
+                <Run Text="{Binding Album}"
+                     FontSize="10" />
+            </TextBlock>
             <ListView Grid.Column="1"
+                      HorizontalAlignment="Left"
+                      MinWidth="750"
+                      Background="White"
                       ItemsSource="{Binding Matches}"
                       SelectedItem="{Binding CandidateMatch, Mode=TwoWay}">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
+                        <ItemsStackPanel Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid BorderBrush="DarkSlateGray"
+                        <Grid MinWidth="150"
+                              MaxWidth="350"
+                              BorderBrush="DarkSlateGray"
                               BorderThickness="2"
                               CornerRadius="4">
                             <Grid.RowDefinitions>
@@ -36,10 +49,12 @@
                                        Text="{Binding Info.Title}" />
                             <TextBlock Grid.Row="1"
                                        HorizontalAlignment="Center"
-                                       Text="{Binding Info.Artist}" />
+                                       Text="{Binding Info.Artist}"
+                                       FontStyle="Italic" />
                             <TextBlock Grid.Row="2"
                                        HorizontalAlignment="Center"
-                                       Text="{Binding Info.Album}" />
+                                       Text="{Binding Info.Album}"
+                                       FontSize="10" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
