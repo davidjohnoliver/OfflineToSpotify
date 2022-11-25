@@ -59,6 +59,18 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <Button Grid.Column="2"
+                    Content="Other...">
+                <Button.Flyout>
+                    <Flyout>
+                        <StackPanel>
+                            <HyperlinkButton Content="Search on Spotify"
+                                             NavigateUri="http://open.spotify.com/search" />
+                            <TextBox PlaceholderText="enter Spotify id..." />
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
         </Grid>
     </DataTemplate>
 
