@@ -25,9 +25,23 @@ namespace OfflineToSpotify;
 /// </summary>
 public sealed partial class MainWindow : Window
 {
+	public static bool IsActive { get; private set; }
 
 	public MainWindow()
 	{
 		this.InitializeComponent();
+
+		Activated += MainWindow_Activated;
+	}
+
+	private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)
+	{
+		IsActive = args.WindowActivationState switch
+		{
+			WindowActivationState.PointerActivated => true,
+			WindowActivationState.CodeActivated => true,
+			WindowActivationState.Deactivated => false,
+			_ => true
+		};
 	}
 }

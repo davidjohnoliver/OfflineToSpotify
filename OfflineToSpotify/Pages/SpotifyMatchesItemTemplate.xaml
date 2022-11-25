@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="using:OfflineToSpotify.Pages"
+                    xmlns:b="using:OfflineToSpotify.Behaviours"
                     xmlns:presentation="using:OfflineToSpotify.Presentation">
     <DataTemplate x:Key="SpotifyMatchesItemTemplate">
         <Grid>
@@ -62,7 +63,8 @@
             <Button Grid.Column="2"
                     Content="Other...">
                 <Button.Flyout>
-                    <Flyout>
+                    <Flyout b:FlyoutBehaviour.ShouldDismissOnDeactivation="False">
+
                         <StackPanel>
                             <HyperlinkButton Content="Search on Spotify"
                                              NavigateUri="http://open.spotify.com/search" />
