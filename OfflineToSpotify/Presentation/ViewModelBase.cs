@@ -32,6 +32,18 @@ namespace OfflineToSpotify.Presentation
 			return false;
 		}
 
+		protected bool OnValueSet<T>(T currentValue, Action<T> setter, T newValue, [CallerMemberName] string? name = null)
+		{
+			if (!Equals(currentValue, newValue))
+			{
+				setter(newValue);
+				OnPropertyChanged(name);
+				return true;
+			}
+
+			return false;
+		}
+
 		private void OnPropertyChanged(string? name)
 			=> PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 	}
