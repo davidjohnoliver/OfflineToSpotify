@@ -14,7 +14,7 @@ namespace OfflineToSpotify.Model
 		public TrackInfo? TrackInfo {get;set;}
 		public string? ImportPath { get; set; }
 		public List<SpotifyTrackInfo> SpotifyMatches { get; set; } = new List<SpotifyTrackInfo>();
-		public SpotifyTrackInfo? CandidateMatch { get; set; }
+		public SpotifyTrackInfo CandidateMatch { get; set; } = SpotifyTrackInfo.NonexistentTrack;
 		public bool IsCandidateConfirmed { get; set; }
 		public bool WereNoCandidatesFound { get; set; }
 

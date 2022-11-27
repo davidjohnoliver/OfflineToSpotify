@@ -64,12 +64,70 @@
                     Content="Other...">
                 <Button.Flyout>
                     <Flyout b:FlyoutBehaviour.ShouldDismissOnDeactivation="False">
-
-                        <StackPanel>
-                            <HyperlinkButton Content="Search on Spotify"
+                        <Flyout.FlyoutPresenterStyle>
+                            <Style TargetType="FlyoutPresenter">
+                                <Setter Property="MinWidth"
+                                        Value="300" />
+                                <Setter Property="MaxWidth"
+                                        Value="800" />
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>
+                        <Grid DataContext="{Binding FlyoutContext}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <HyperlinkButton Grid.Row="0"
+                                             Grid.ColumnSpan="2"
+                                             Content="Search on Spotify"
                                              NavigateUri="http://open.spotify.com/search" />
-                            <TextBox PlaceholderText="enter Spotify id..." />
-                        </StackPanel>
+                            <TextBox Grid.Row="1"
+                                     Grid.Column="0"
+                                     MinWidth="300"
+                                     Text="{Binding ManualSongLink, Mode=TwoWay}"
+                                     PlaceholderText="enter song link..." />
+                            <Button Grid.Row="1"
+                                    Grid.Column="1">
+                                <Button.Content>
+                                    <SymbolIcon Symbol="Accept" />
+                                </Button.Content>
+                            </Button>
+                            <TextBlock Grid.Row="2"
+                                       Grid.ColumnSpan="2"
+                                       HorizontalAlignment="Center"
+                                       Text="{Binding InfoFromLink.Title}" />
+                            <TextBlock Grid.Row="3"
+                                       Grid.ColumnSpan="2"
+                                       HorizontalAlignment="Center"
+                                       Text="{Binding InfoFromLink.Artist}"
+                                       FontStyle="Italic" />
+                            <TextBlock Grid.Row="4"
+                                       Grid.ColumnSpan="2"
+                                       HorizontalAlignment="Center"
+                                       Text="{Binding InfoFromLink.Album}"
+                                       FontSize="10" />
+                            <Button Grid.Row="5"
+                                    Grid.Column="0"
+                                    Margin="30"
+                                    HorizontalAlignment="Left"
+                                    Command="{Binding ConfirmMatch}"
+                                    Content="Confirm this match" />
+                            <Button Grid.Row="5"
+                                    Grid.Column="1"
+                                    Margin="30"
+                                    HorizontalAlignment="Right"
+                                    Command="{Binding ConfirmNoMatchingSong}"
+                                    Content="This song isn't on Spotify" />
+                        </Grid>
                     </Flyout>
                 </Button.Flyout>
             </Button>

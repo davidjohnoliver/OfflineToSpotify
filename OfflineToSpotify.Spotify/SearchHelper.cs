@@ -18,6 +18,12 @@ namespace OfflineToSpotify.Spotify
 			_client = spotifyClient;
 		}
 
+		public async Task<SpotifyTrackInfo> FindTrackById(string id)
+		{
+			var track = await _client.Tracks.Get(id);
+			return track.ToTrackInfo();
+		}
+
 		public Task<IList<SpotifyTrackInfo>> SearchTrack(TrackInfo trackInfo, int matches, QueryFormat queryFormat)
 			=> SearchTrack(trackInfo.Title, trackInfo.Artist, trackInfo.Album, matches, queryFormat);
 

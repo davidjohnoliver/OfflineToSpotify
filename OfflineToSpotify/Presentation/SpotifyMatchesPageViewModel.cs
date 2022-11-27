@@ -94,7 +94,7 @@ namespace OfflineToSpotify.Presentation
 			{
 				await TrackManager.UpdateMissingMatches(track, _playlistDB, _searchHelper, 3);
 				// Consider optimized observable collection implementation w/ AddRange if this is too slow
-				_currentTracks.Add(new(track, _playlistDB, _progressIndicator));
+				_currentTracks.Add(new(track, _playlistDB, _searchHelper, _progressIndicator));
 			}
 		}
 	}
