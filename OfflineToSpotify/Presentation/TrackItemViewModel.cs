@@ -43,6 +43,11 @@ namespace OfflineToSpotify.Presentation
 			get => _candidateMatch;
 			set
 			{
+				if (value == null)
+				{
+					// Disallow null values from the UI layer
+					return;
+				}
 				if (OnValueSet(ref _candidateMatch, value))
 				{
 					Track.CandidateMatch = value?.Info ?? SpotifyTrackInfo.NonexistentTrack;
