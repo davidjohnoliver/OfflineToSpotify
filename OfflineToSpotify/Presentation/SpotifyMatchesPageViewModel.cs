@@ -92,9 +92,12 @@ namespace OfflineToSpotify.Presentation
 			var currentTracks = _allTracks[(CurrentPage * PageSize)..((CurrentPage + 1) * PageSize)];
 			foreach (var track in currentTracks)
 			{
-				await TrackManager.UpdateMissingMatches(track, _playlistDB, _searchHelper, 3);
-				// Consider optimized observable collection implementation w/ AddRange if this is too slow
-				_currentTracks.Add(new(track, _playlistDB, _searchHelper, _progressIndicator));
+				using (_progressIndicator.ShowIndicator())
+				{
+					await TrackManager.UpdateMissingMatches(track, _playlistDB, _searchHelper, 3);
+					// Consider optimized observable collection implementation w/ AddRange if this is too slow
+					_currentTracks.Add(new(track, _playlistDB, _searchHelper, _progressIndicator)); 
+				}
 			}
 		}
 	}
