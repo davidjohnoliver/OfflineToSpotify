@@ -2,7 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="using:OfflineToSpotify.Pages"
                     xmlns:b="using:OfflineToSpotify.Behaviours"
+                    xmlns:c="using:OfflineToSpotify.Converters"
                     xmlns:presentation="using:OfflineToSpotify.Presentation">
+    <c:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <DataTemplate x:Key="SpotifyMatchesItemTemplate">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -131,6 +133,16 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
+            <!--Hold space for confirm symbol-->
+            <Rectangle Grid.Column="3"
+                       Fill="Transparent"
+                       Width="20"
+                       Margin="10" />
+            <SymbolIcon Grid.Column="3"
+                        Margin="10"
+                        Symbol="Accept"
+                        Foreground="ForestGreen"
+                        Visibility="{Binding IsMatchConfirmed, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </Grid>
     </DataTemplate>
 
