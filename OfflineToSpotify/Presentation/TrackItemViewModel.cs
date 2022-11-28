@@ -50,6 +50,7 @@ namespace OfflineToSpotify.Presentation
 				}
 				if (OnValueSet(ref _candidateMatch, value))
 				{
+					IsMatchConfirmed = true;
 					Track.CandidateMatch = value?.Info ?? SpotifyTrackInfo.NonexistentTrack;
 					UpdateDB();
 				}
