@@ -77,6 +77,29 @@ namespace OfflineToSpotify.Presentation
 			CurrentPage++;
 		}
 
+		public async void ConfirmMatchesAndIncrementPage()
+		{
+			await ConfirmAllMatchesInPage();
+
+			// Give UI a chance to update
+			await Task.Delay(200);
+
+			IncrementPage();
+		}
+
+		private async Task ConfirmAllMatchesInPage()
+		{
+			using (_progressIndicator.ShowIndicator())
+			{
+				foreach (var track in _currentTracks)
+				{
+					track.IsMatchConfirmed = true;
+				}
+
+				await _playlistDB.UpdateTracks(_currentTracks.Select(tvm => tvm.Track));
+			}
+		}
+
 		private async void LaunchUpdateCurrentTracks()
 		{
 			await UpdateCurrentTracks();
@@ -96,7 +119,7 @@ namespace OfflineToSpotify.Presentation
 				{
 					await TrackManager.UpdateMissingMatches(track, _playlistDB, _searchHelper, 3);
 					// Consider optimized observable collection implementation w/ AddRange if this is too slow
-					_currentTracks.Add(new(track, _playlistDB, _searchHelper, _progressIndicator)); 
+					_currentTracks.Add(new(track, _playlistDB, _searchHelper, _progressIndicator));
 				}
 			}
 		}

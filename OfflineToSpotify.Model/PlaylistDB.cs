@@ -33,12 +33,10 @@ namespace OfflineToSpotify.Model
 		}
 
 		public async Task UpdateTrack(Track track)
-		{
-			await Task.Run(() =>
-			{
-				_trackCollection.Update(track);
-			});
-		}
+			=> await Task.Run(() => _trackCollection.Update(track));
+
+		public async Task UpdateTracks(IEnumerable<Track> tracks)
+			=> await Task.Run(() => _trackCollection.Update(tracks));
 
 		public void Dispose()
 		{
