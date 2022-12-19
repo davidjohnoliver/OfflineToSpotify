@@ -33,6 +33,9 @@
                 </Button>
                 <TextBlock Margin="40,0,40,0"><Run Text="{x:Bind VM.CurrentPage, Mode=OneWay}" /> of <Run Text="{x:Bind VM.MaxPage, Mode=OneWay}" /></TextBlock>
                 <Button Margin="120,0,40,0"
+                        Command="{x:Bind VM.SkipToUnmatchedCommand}"
+                        Content="Jump to unmatched songs" />
+                <Button Margin="40,0,40,0"
                         Click="{x:Bind VM.ConfirmMatchesAndIncrementPage}"
                         Content="Confirm matches and continue" />
                 <Button Click="{x:Bind VM.IncrementPage}">

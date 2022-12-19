@@ -1,5 +1,6 @@
 ﻿#nullable enable
 
+using OfflineToSpotify.Core.Extensions;
 using OfflineToSpotify.Model;
 using OfflineToSpotify.Spotify;
 using System;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace OfflineToSpotify.Presentation
 {
@@ -39,11 +41,15 @@ namespace OfflineToSpotify.Presentation
 		private int MinPage => 0;
 		public int MaxPage => (_allTracks?.Length - 1) / PageSize ?? 0;
 
+		private SimpleCommand<object> _skipToUnmatchedCommand;
+		public ICommand SkipToUnmatchedCommand => _skipToUnmatchedCommand;
+
 		public SpotifyMatchesPageViewModel(IProgressIndicator progressIndicator, PlaylistDB playlistDB, string token)
 		{
 			_progressIndicator = progressIndicator;
 			_playlistDB = playlistDB;
 			_searchHelper = new(new(token));
+			_skipToUnmatchedCommand = SimpleCommand.Create(SkipToUnmatched);
 
 			Initialize();
 		}
@@ -98,6 +104,19 @@ namespace OfflineToSpotify.Presentation
 
 				await _playlistDB.UpdateTracks(_currentTracks.Select(tvm => tvm.Track));
 			}
+		}
+
+		private void SkipToUnmatched()
+		{
+			var firstUnmatched = _allTracks?.Indexed().SkipWhile(tpl => tpl.Value.IsCandidateConfirmed).FirstOrDefault().Index;
+			if (firstUnmatched is not { } firstUnmatchedValue)
+			{
+				return;
+			}
+
+			var firstPageWithUnmatched = firstUnmatchedValue / PageSize;
+
+			CurrentPage = firstPageWithUnmatched;
 		}
 
 		private async void LaunchUpdateCurrentTracks()
