@@ -95,7 +95,7 @@ namespace OfflineToSpotify.Presentation
 		{
 			using (_progressIndicator.ShowIndicator())
 			{
-				await _db.UpdateTrack(Track);
+				await TrackManager.UpdateTrack(Track, _db);
 			}
 		}
 

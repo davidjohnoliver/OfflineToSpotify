@@ -102,7 +102,7 @@ namespace OfflineToSpotify.Presentation
 					track.IsMatchConfirmed = true;
 				}
 
-				await _playlistDB.UpdateTracks(_currentTracks.Select(tvm => tvm.Track));
+				await TrackManager.UpdateTracks(_currentTracks.Select(tvm => tvm.Track), _playlistDB);
 			}
 		}
 

@@ -9,6 +9,16 @@ namespace OfflineToSpotify.Model
 {
 	public static class TrackManager
 	{
+		public static async Task UpdateTrack(Track track, PlaylistDB db)
+		{
+			await db.UpdateTrack(track);
+		}
+
+		public static async Task UpdateTracks(IEnumerable<Track> tracks, PlaylistDB db)
+		{
+			await db.UpdateTracks(tracks);
+		}
+
 		public static async Task UpdateMissingMatches(Track track, PlaylistDB db, SearchHelper searchHelper, int matchesCount)
 		{
 			if (track.SpotifyMatches.Count > 0 || track.WereNoCandidatesFound || track.TrackInfo is null)
