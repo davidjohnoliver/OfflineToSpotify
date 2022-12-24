@@ -145,7 +145,7 @@ namespace OfflineToSpotify.Presentation
 			public static MatchItemViewModel NoMatch { get; } = new(SpotifyTrackInfo.NonexistentTrack);
 		}
 
-		public class TrackItemFlyoutViewModel : ViewModelBase
+		public class TrackItemFlyoutViewModel : ViewModelBase, IReceiver<IDismissibleContainer>
 		{
 			private string? _manualSongLink;
 			private readonly TrackItemViewModel _parent;
@@ -178,13 +178,23 @@ namespace OfflineToSpotify.Presentation
 
 			public ICommand ConfirmNoMatchingSong { get; }
 
+			private IDismissibleContainer? _dismissibleContainer;
+
 			public TrackItemFlyoutViewModel(TrackItemViewModel parent)
 			{
 				_parent = parent;
 
-				_confirmMatch = SimpleCommand.Create(() => _parent.SetUserMatch(InfoFromLink));
+				_confirmMatch = SimpleCommand.Create(() =>
+				{
+					_parent.SetUserMatch(InfoFromLink);
+					_dismissibleContainer?.Dismiss();
+				});
 				_confirmMatch.CanExecute = false;
-				ConfirmNoMatchingSong = SimpleCommand.Create(_parent.SetNoExistingMatch);
+				ConfirmNoMatchingSong = SimpleCommand.Create(() =>
+				{
+					_parent.SetNoExistingMatch();
+					_dismissibleContainer?.Dismiss();
+				});
 			}
 
 			private async void SearchManual(string songLink)
@@ -214,6 +224,11 @@ namespace OfflineToSpotify.Presentation
 
 				// Well perhaps it was just an id, we can give it a try as-is
 				return songLink;
+			}
+
+			public void Set(IDismissibleContainer value)
+			{
+				_dismissibleContainer = value;
 			}
 		}
 	}

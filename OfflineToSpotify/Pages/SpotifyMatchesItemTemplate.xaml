@@ -65,7 +65,8 @@
             <Button Grid.Column="2"
                     Content="Other...">
                 <Button.Flyout>
-                    <Flyout b:FlyoutBehaviour.ShouldDismissOnDeactivation="False">
+                    <Flyout x:Name="Flyout"
+                            b:FlyoutBehaviour.ShouldDismissOnDeactivation="False">
                         <Flyout.FlyoutPresenterStyle>
                             <Style TargetType="FlyoutPresenter">
                                 <Setter Property="MinWidth"
@@ -74,7 +75,8 @@
                                         Value="800" />
                             </Style>
                         </Flyout.FlyoutPresenterStyle>
-                        <Grid DataContext="{Binding FlyoutContext}">
+                        <Grid b:FlyoutBehaviour.SetAsDismissible="{Binding ElementName=Flyout}"
+                              DataContext="{Binding FlyoutContext}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
@@ -88,7 +90,8 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Title}"
+                                       FontWeight="Bold" />
                             <HyperlinkButton Grid.Row="1"
                                              Grid.ColumnSpan="2"
                                              Content="Search on Spotify"
