@@ -59,14 +59,16 @@ namespace OfflineToSpotify.Presentation
 
 		public TrackItemFlyoutViewModel FlyoutContext { get; }
 
-		private readonly PlaylistDB _db;
+		private readonly PlaylistDB _playlistDB;
+		private readonly CachedMatchesDB _cachedMatchesDB;
 		private readonly SearchHelper _searchHelper;
 		private readonly IProgressIndicator _progressIndicator;
 
-		public TrackItemViewModel(Track track, PlaylistDB db, SearchHelper searchHelper, IProgressIndicator progressIndicator)
+		public TrackItemViewModel(Track track, PlaylistDB playlistDB, CachedMatchesDB cachedMatchesDB, SearchHelper searchHelper, IProgressIndicator progressIndicator)
 		{
 			Track = track;
-			_db = db;
+			_playlistDB = playlistDB;
+			_cachedMatchesDB = cachedMatchesDB;
 			_searchHelper = searchHelper;
 			_progressIndicator = progressIndicator;
 			UpdateMatches();
@@ -82,7 +84,7 @@ namespace OfflineToSpotify.Presentation
 			{
 				_shouldIncludeNoMatch = true;
 			}
-			if (Track.IsCandidateConfirmed && Track.CandidateMatch == SpotifyTrackInfo.NonexistentTrack)
+			if (Track.IsCandidateConfirmed && Track.CandidateMatch == SpotifyTrackInfo.NonexistentTrack && !Track.SpotifyMatches.Contains(SpotifyTrackInfo.NonexistentTrack))
 			{
 				_shouldIncludeNoMatch = true;
 			}
@@ -95,7 +97,7 @@ namespace OfflineToSpotify.Presentation
 		{
 			using (_progressIndicator.ShowIndicator())
 			{
-				await TrackManager.UpdateTrack(Track, _db);
+				await TrackManager.UpdateTrack(Track, _playlistDB, _cachedMatchesDB);
 			}
 		}
 

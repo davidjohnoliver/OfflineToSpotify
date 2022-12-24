@@ -6,19 +6,25 @@ using OfflineToSpotify.Spotify;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Storage;
 
 namespace OfflineToSpotify.Presentation
 {
 	sealed class SpotifyMatchesPageViewModel : ViewModelBase
 	{
 		private const int PageSize = 20;
+		private const string CacheDBName = "CachedMatches.db";
+
 		private readonly IProgressIndicator _progressIndicator;
 		private readonly PlaylistDB _playlistDB;
+		private CachedMatchesDB? _cachedMatchesDB;
+		private CachedMatchesDB CachedMatchesDB => _cachedMatchesDB ?? throw new InvalidOperationException("Not initialized");
 		private readonly SearchHelper _searchHelper;
 
 		private Track[]? _allTracks;
@@ -60,6 +66,11 @@ namespace OfflineToSpotify.Presentation
 			_allTracks = (await _playlistDB.GetTracks(CancellationToken.None)).ToArray();
 			var _ = 0;
 			OnValueSet(ref _, 1, nameof(MaxPage)); // Hacky, but it works
+			using (_progressIndicator.ShowIndicator())
+			{
+				var cachePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, CacheDBName);
+				_cachedMatchesDB = await CachedMatchesDB.Initialize(cachePath);
+			}
 			await UpdateCurrentTracks();
 		}
 
@@ -102,7 +113,7 @@ namespace OfflineToSpotify.Presentation
 					track.IsMatchConfirmed = true;
 				}
 
-				await TrackManager.UpdateTracks(_currentTracks.Select(tvm => tvm.Track), _playlistDB);
+				await TrackManager.UpdateTracks(_currentTracks.Select(tvm => tvm.Track), _playlistDB, CachedMatchesDB);
 			}
 		}
 
@@ -136,9 +147,9 @@ namespace OfflineToSpotify.Presentation
 			{
 				using (_progressIndicator.ShowIndicator())
 				{
-					await TrackManager.UpdateMissingMatches(track, _playlistDB, _searchHelper, 3);
+					await TrackManager.UpdateMissingMatches(track, _playlistDB, CachedMatchesDB, _searchHelper, 3);
 					// Consider optimized observable collection implementation w/ AddRange if this is too slow
-					_currentTracks.Add(new(track, _playlistDB, _searchHelper, _progressIndicator));
+					_currentTracks.Add(new(track, _playlistDB, CachedMatchesDB, _searchHelper, _progressIndicator));
 				}
 			}
 		}
