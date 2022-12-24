@@ -1,4 +1,5 @@
-﻿using OfflineToSpotify.Spotify;
+﻿using OfflineToSpotify.Core.Utils;
+using OfflineToSpotify.Spotify;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,21 +41,18 @@ namespace OfflineToSpotify.Model
 				return;
 			}
 
-			var matches = await searchHelper.SearchTrack(track.TrackInfo, matchesCount, QueryFormat.SimpleNoAlbum);
-			track.SpotifyMatches = matches.ToList();
-
 			// Check cached matches, and use as confirmed candidate if available
 			if (track.ImportPath != null && matchesDB.GetMatch(track.ImportPath) is { } cachedMatch)
 			{
-				if (!track.SpotifyMatches.Contains(cachedMatch))
-				{
-					track.SpotifyMatches.Insert(0, cachedMatch);
-				}
+				track.SpotifyMatches = ListUtils.FromValues(cachedMatch);
 				track.CandidateMatch = cachedMatch;
 				track.IsCandidateConfirmed = true;
 			}
 			else
 			{
+				var matches = await searchHelper.SearchTrack(track.TrackInfo, matchesCount, QueryFormat.SimpleNoAlbum);
+				track.SpotifyMatches = matches.ToList();
+
 				if (matches.Count == 0)
 				{
 					track.WereNoCandidatesFound = true;
@@ -62,7 +60,7 @@ namespace OfflineToSpotify.Model
 				else
 				{
 					track.CandidateMatch = matches.First();
-				} 
+				}
 			}
 
 			await db.UpdateTrack(track);
