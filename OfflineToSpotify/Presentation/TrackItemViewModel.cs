@@ -152,6 +152,8 @@ namespace OfflineToSpotify.Presentation
 
 			private static readonly Regex _idMatcher = new("track\\/([^\\?]+)");
 
+			public string? Title => _parent.Title;
+
 			public string? ManualSongLink
 			{
 				get => _manualSongLink;

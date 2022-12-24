@@ -88,42 +88,43 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <HyperlinkButton Grid.Row="0"
+                            <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
+                            <HyperlinkButton Grid.Row="1"
                                              Grid.ColumnSpan="2"
                                              Content="Search on Spotify"
                                              NavigateUri="http://open.spotify.com/search" />
-                            <TextBox Grid.Row="1"
+                            <TextBox Grid.Row="2"
                                      Grid.Column="0"
                                      MinWidth="300"
                                      Text="{Binding ManualSongLink, Mode=TwoWay}"
                                      PlaceholderText="enter song link..." />
-                            <Button Grid.Row="1"
+                            <Button Grid.Row="3"
                                     Grid.Column="1">
                                 <Button.Content>
                                     <SymbolIcon Symbol="Accept" />
                                 </Button.Content>
                             </Button>
-                            <TextBlock Grid.Row="2"
+                            <TextBlock Grid.Row="3"
                                        Grid.ColumnSpan="2"
                                        HorizontalAlignment="Center"
                                        Text="{Binding InfoFromLink.Title}" />
-                            <TextBlock Grid.Row="3"
+                            <TextBlock Grid.Row="4"
                                        Grid.ColumnSpan="2"
                                        HorizontalAlignment="Center"
                                        Text="{Binding InfoFromLink.Artist}"
                                        FontStyle="Italic" />
-                            <TextBlock Grid.Row="4"
+                            <TextBlock Grid.Row="5"
                                        Grid.ColumnSpan="2"
                                        HorizontalAlignment="Center"
                                        Text="{Binding InfoFromLink.Album}"
                                        FontSize="10" />
-                            <Button Grid.Row="5"
+                            <Button Grid.Row="6"
                                     Grid.Column="0"
                                     Margin="30"
                                     HorizontalAlignment="Left"
                                     Command="{Binding ConfirmMatch}"
                                     Content="Confirm this match" />
-                            <Button Grid.Row="5"
+                            <Button Grid.Row="6"
                                     Grid.Column="1"
                                     Margin="30"
                                     HorizontalAlignment="Right"
