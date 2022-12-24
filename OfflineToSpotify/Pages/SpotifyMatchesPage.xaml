@@ -41,6 +41,9 @@
                 <Button Click="{x:Bind VM.IncrementPage}">
                     <SymbolIcon Symbol="Forward" />
                 </Button>
+                <Button Margin="20,0,20,0"
+                        Click="{x:Bind VM.GoToSummary}"
+                        Content="View summary and export" />
             </StackPanel>
         </Grid>
         <Border x:Name="ProgressView"

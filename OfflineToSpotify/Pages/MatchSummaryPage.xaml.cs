@@ -25,10 +25,10 @@ namespace OfflineToSpotify.Pages
 	/// <summary>
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
-	public sealed partial class SpotifyMatchesPage : Page
+	public sealed partial class MatchSummaryPage : Page
 	{
-		private SpotifyMatchesPageViewModel? VM { get; set; }
-		public SpotifyMatchesPage()
+		private MatchSummaryPageViewModel? VM { get; set; }
+		public MatchSummaryPage()
 		{
 			this.InitializeComponent();
 		}
@@ -37,9 +37,9 @@ namespace OfflineToSpotify.Pages
 		{
 			base.OnNavigatedTo(e);
 
-			var param = ((PlaylistDB DB, string Token))e.Parameter;
+			var param = (Track[])e.Parameter;
 
-			VM = new(new VisibilityProgressIndicator(ProgressView), param.DB, param.Token, new(this));
+			VM = new(param);
 		}
 	}
 }

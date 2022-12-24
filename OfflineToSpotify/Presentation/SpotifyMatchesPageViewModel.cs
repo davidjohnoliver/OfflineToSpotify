@@ -2,6 +2,7 @@
 
 using OfflineToSpotify.Core.Extensions;
 using OfflineToSpotify.Model;
+using OfflineToSpotify.Pages;
 using OfflineToSpotify.Spotify;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace OfflineToSpotify.Presentation
 
 		private readonly IProgressIndicator _progressIndicator;
 		private readonly PlaylistDB _playlistDB;
+		private readonly Navigator<Track[]> _navigator;
 		private CachedMatchesDB? _cachedMatchesDB;
 		private CachedMatchesDB CachedMatchesDB => _cachedMatchesDB ?? throw new InvalidOperationException("Not initialized");
 		private readonly SearchHelper _searchHelper;
@@ -50,10 +52,11 @@ namespace OfflineToSpotify.Presentation
 		private SimpleCommand<object> _skipToUnmatchedCommand;
 		public ICommand SkipToUnmatchedCommand => _skipToUnmatchedCommand;
 
-		public SpotifyMatchesPageViewModel(IProgressIndicator progressIndicator, PlaylistDB playlistDB, string token)
+		public SpotifyMatchesPageViewModel(IProgressIndicator progressIndicator, PlaylistDB playlistDB, string token, Navigator<Track[]> navigator)
 		{
 			_progressIndicator = progressIndicator;
 			_playlistDB = playlistDB;
+			_navigator = navigator;
 			_searchHelper = new(new(token));
 			_skipToUnmatchedCommand = SimpleCommand.Create(SkipToUnmatched);
 
@@ -115,6 +118,11 @@ namespace OfflineToSpotify.Presentation
 
 				await TrackManager.UpdateTracks(_currentTracks.Select(tvm => tvm.Track), _playlistDB, CachedMatchesDB);
 			}
+		}
+
+		public void GoToSummary()
+		{
+			_navigator.Navigate<MatchSummaryPage>(_allTracks ?? throw new InvalidOperationException("Not initialized"));
 		}
 
 		private void SkipToUnmatched()
