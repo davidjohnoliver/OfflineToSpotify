@@ -127,9 +127,11 @@ namespace OfflineToSpotify.Presentation
 
 		private void SkipToUnmatched()
 		{
-			var firstUnmatched = _allTracks?.Indexed().SkipWhile(tpl => tpl.Value.IsCandidateConfirmed).FirstOrDefault().Index;
+			var firstUnmatchedTpl = _allTracks?.Indexed().SkipWhile(tpl => tpl.Value.IsCandidateConfirmed).FirstOrDefault();
+			var firstUnmatched = firstUnmatchedTpl?.Value != null ? firstUnmatchedTpl?.Index : null;
 			if (firstUnmatched is not { } firstUnmatchedValue)
 			{
+				CurrentPage = MaxPage;
 				return;
 			}
 
