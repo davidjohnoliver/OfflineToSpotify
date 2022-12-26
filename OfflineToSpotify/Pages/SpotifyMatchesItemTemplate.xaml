@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="using:OfflineToSpotify.Pages"
                     xmlns:b="using:OfflineToSpotify.Behaviours"
-                    xmlns:c="using:OfflineToSpotify.Converters"
+                    xmlns:c="using:OfflineToSpotify.Conversion"
                     xmlns:presentation="using:OfflineToSpotify.Presentation">
     <c:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <DataTemplate x:Key="SpotifyMatchesItemTemplate">

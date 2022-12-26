@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OfflineToSpotify.Converters
+namespace OfflineToSpotify.Conversion
 {
 	public sealed class BooleanToVisibilityConverter : IValueConverter
 	{
