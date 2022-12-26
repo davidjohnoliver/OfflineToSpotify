@@ -1,7 +1,11 @@
-﻿using OfflineToSpotify.Model;
+﻿#nullable enable
+
+using OfflineToSpotify.Core.Extensions;
+using OfflineToSpotify.Model;
 using OfflineToSpotify.Spotify;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +24,51 @@ namespace OfflineToSpotify.Presentation
 		public int UnmatchedCount =>
 			_allTracks.Count(t => !IsMatched(t));
 
+		public IList<MatchSummaryItemViewModel>? Items { get; private set; }
+
 		public MatchSummaryPageViewModel(Track[] allTracks)
 		{
 			_allTracks = allTracks;
+
+			InitializeItems();
+		}
+
+		private void InitializeItems()
+		{
+			var items = new List<MatchSummaryItemViewModel>();
+			for (int i = 0; i < _allTracks.Length; i++)
+			{
+				var current = _allTracks[i];
+				if (!IsMatched(current))
+				{
+					if (_allTracks.ContainsIndex(i - 1) && !LastMatchesIndex(i - 1))
+					{
+						if (_allTracks.ContainsIndex(i - 2) && !LastMatchesIndex(i - 2) && items.Count > 0)
+						{
+							items.Add(new MatchSummaryItemViewModel.Ellipsis());
+						}
+
+						var leftBookend = _allTracks[i - 1];
+						Debug.Assert(IsMatched(leftBookend));
+						items.Add(new MatchSummaryItemViewModel.MatchedTrack { Index0Based = i - 1, Info = leftBookend.TrackInfo });
+					}
+
+					items.Add(new MatchSummaryItemViewModel.UnmatchedTrack { Index0Based = i, Info = current.TrackInfo });
+
+					if (_allTracks.ContainsIndex(i + 1) && IsMatched(_allTracks[i + 1]))
+					{
+						var rightBookend = _allTracks[i + 1];
+						items.Add(new MatchSummaryItemViewModel.MatchedTrack { Index0Based = i + 1, Info = rightBookend.TrackInfo });
+					}
+				}
+			}
+
+			Items = items;
+
+			bool LastMatchesIndex(int i)
+			{
+				return items.Count > 0 && items.Last() is MatchSummaryItemViewModel.TrackItem ti && ti.Index0Based == i;
+			}
 		}
 
 		private static bool IsMatched(Track track) => track.CandidateMatch != SpotifyTrackInfo.NonexistentTrack;

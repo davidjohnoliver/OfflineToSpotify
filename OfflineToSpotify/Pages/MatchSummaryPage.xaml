@@ -2,13 +2,31 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:local="using:OfflineToSpotify.Pages"
+      xmlns:c="using:OfflineToSpotify.Conversion"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <Style x:Key="DeemphasisedItemStyle"
+               TargetType="TextBlock">
+            <Setter Property="Foreground"
+                    Value="LightGray" />
+            <Setter Property="FontSize"
+                    Value="14" />
+        </Style>
+        <Style x:Key="EmphasisedItemStyle"
+               TargetType="TextBlock">
+            <!--<Setter Property="Foreground"
+                    Value="LightGray" />-->
+            <Setter Property="FontSize"
+                    Value="14" />
+        </Style>
+    </Page.Resources>
 
     <Grid Margin="30">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -17,5 +35,39 @@
         <TextBlock Grid.Row="0"><Run Text="{x:Bind VM.TotalCount}" /> songs in playlist</TextBlock>
         <TextBlock Grid.Row="1"><Run Text="{x:Bind VM.MatchedCount}" /> songs were matched</TextBlock>
         <TextBlock Grid.Row="2"><Run Text="{x:Bind VM.UnmatchedCount}" /> songs weren't on Spotify</TextBlock>
+        <TextBlock Grid.Row="3"
+                   Margin="10,40,10,5"
+                   Text="Unmatched items:" />
+        <ListView Grid.Row="4"
+                  Margin="10,0,10,0"
+                  MaxWidth="1000"
+                  HorizontalAlignment="Left"
+                  Background="White"
+                  ItemsSource="{x:Bind VM.Items}">
+            <ListView.ItemTemplateSelector>
+                <c:MatchSummaryItemTemplateSelector>
+                    <c:MatchSummaryItemTemplateSelector.EllipsisTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="..."
+                                       Style="{ThemeResource DeemphasisedItemStyle}" />
+                        </DataTemplate>
+                    </c:MatchSummaryItemTemplateSelector.EllipsisTemplate>
+                    <c:MatchSummaryItemTemplateSelector.MatchedItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Style="{ThemeResource DeemphasisedItemStyle}"><Run Text="{Binding Index}" />. <Run Text="{Binding Info.Artist}" />, <Run FontStyle="Italic"
+                                                                                                                                                                Text="{Binding Info.Title}" /> <Run Text="{Binding Info.Album}"
+                                                                                                                                                                                                    FontSize="10" /></TextBlock>
+                        </DataTemplate>
+                    </c:MatchSummaryItemTemplateSelector.MatchedItemTemplate>
+                    <c:MatchSummaryItemTemplateSelector.UnmatchedItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Style="{ThemeResource EmphasisedItemStyle}"><Run Text="{Binding Index}" />. <Run Text="{Binding Info.Artist}" />, <Run FontStyle="Italic"
+                                                                                                                                                              Text="{Binding Info.Title}" /> <Run Text="{Binding Info.Album}"
+                                                                                                                                                                                                  FontSize="10" /></TextBlock>
+                        </DataTemplate>
+                    </c:MatchSummaryItemTemplateSelector.UnmatchedItemTemplate>
+                </c:MatchSummaryItemTemplateSelector>
+            </ListView.ItemTemplateSelector>
+        </ListView>
     </Grid>
 </Page>
