@@ -39,7 +39,7 @@ namespace OfflineToSpotify.Pages
 
 			var param = (Track[])e.Parameter;
 
-			VM = new(param);
+			VM = new(param, new VisibilityProgressIndicator(ProgressView));
 		}
 	}
 }

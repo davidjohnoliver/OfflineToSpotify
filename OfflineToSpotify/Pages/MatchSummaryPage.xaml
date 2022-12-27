@@ -17,57 +17,81 @@
         </Style>
         <Style x:Key="EmphasisedItemStyle"
                TargetType="TextBlock">
-            <!--<Setter Property="Foreground"
-                    Value="LightGray" />-->
             <Setter Property="FontSize"
                     Value="14" />
         </Style>
     </Page.Resources>
 
-    <Grid Margin="30">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0"><Run Text="{x:Bind VM.TotalCount}" /> songs in playlist</TextBlock>
-        <TextBlock Grid.Row="1"><Run Text="{x:Bind VM.MatchedCount}" /> songs were matched</TextBlock>
-        <TextBlock Grid.Row="2"><Run Text="{x:Bind VM.UnmatchedCount}" /> songs weren't on Spotify</TextBlock>
-        <TextBlock Grid.Row="3"
-                   Margin="10,40,10,5"
-                   Text="Unmatched items:" />
-        <ListView Grid.Row="4"
-                  Margin="10,0,10,0"
-                  MaxWidth="1000"
-                  HorizontalAlignment="Left"
-                  Background="White"
-                  ItemsSource="{x:Bind VM.Items}">
-            <ListView.ItemTemplateSelector>
-                <c:MatchSummaryItemTemplateSelector>
-                    <c:MatchSummaryItemTemplateSelector.EllipsisTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="..."
-                                       Style="{ThemeResource DeemphasisedItemStyle}" />
-                        </DataTemplate>
-                    </c:MatchSummaryItemTemplateSelector.EllipsisTemplate>
-                    <c:MatchSummaryItemTemplateSelector.MatchedItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Style="{ThemeResource DeemphasisedItemStyle}"><Run Text="{Binding Index}" />. <Run Text="{Binding Info.Artist}" />, <Run FontStyle="Italic"
-                                                                                                                                                                Text="{Binding Info.Title}" /> <Run Text="{Binding Info.Album}"
-                                                                                                                                                                                                    FontSize="10" /></TextBlock>
-                        </DataTemplate>
-                    </c:MatchSummaryItemTemplateSelector.MatchedItemTemplate>
-                    <c:MatchSummaryItemTemplateSelector.UnmatchedItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Style="{ThemeResource EmphasisedItemStyle}"><Run Text="{Binding Index}" />. <Run Text="{Binding Info.Artist}" />, <Run FontStyle="Italic"
-                                                                                                                                                              Text="{Binding Info.Title}" /> <Run Text="{Binding Info.Album}"
-                                                                                                                                                                                                  FontSize="10" /></TextBlock>
-                        </DataTemplate>
-                    </c:MatchSummaryItemTemplateSelector.UnmatchedItemTemplate>
-                </c:MatchSummaryItemTemplateSelector>
-            </ListView.ItemTemplateSelector>
-        </ListView>
+    <Grid>
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0"><Run Text="{x:Bind VM.TotalCount}" /> songs in playlist</TextBlock>
+            <TextBlock Grid.Row="1"><Run Text="{x:Bind VM.MatchedCount}" /> songs were matched</TextBlock>
+            <TextBlock Grid.Row="2"><Run Text="{x:Bind VM.UnmatchedCount}" /> songs weren't on Spotify</TextBlock>
+            <TextBlock Grid.Row="3"
+                       Margin="10,40,10,5"
+                       Text="Unmatched items:" />
+            <ListView Grid.Row="4"
+                      Margin="10,0,10,0"
+                      MaxWidth="1000"
+                      HorizontalAlignment="Left"
+                      Background="White"
+                      ItemsSource="{x:Bind VM.Items}">
+                <ListView.ItemTemplateSelector>
+                    <c:MatchSummaryItemTemplateSelector>
+                        <c:MatchSummaryItemTemplateSelector.EllipsisTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="..."
+                                           Style="{ThemeResource DeemphasisedItemStyle}" />
+                            </DataTemplate>
+                        </c:MatchSummaryItemTemplateSelector.EllipsisTemplate>
+                        <c:MatchSummaryItemTemplateSelector.MatchedItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Style="{ThemeResource DeemphasisedItemStyle}"><Run Text="{Binding Index}" />. <Run Text="{Binding Info.Artist}" />, <Run FontStyle="Italic"
+                                                                                                                                                                    Text="{Binding Info.Title}" /> <Run Text="{Binding Info.Album}"
+                                                                                                                                                                                                        FontSize="10" /></TextBlock>
+                            </DataTemplate>
+                        </c:MatchSummaryItemTemplateSelector.MatchedItemTemplate>
+                        <c:MatchSummaryItemTemplateSelector.UnmatchedItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Style="{ThemeResource EmphasisedItemStyle}"><Run Text="{Binding Index}" />. <Run Text="{Binding Info.Artist}" />, <Run FontStyle="Italic"
+                                                                                                                                                                  Text="{Binding Info.Title}" /> <Run Text="{Binding Info.Album}"
+                                                                                                                                                                                                      FontSize="10" /></TextBlock>
+                            </DataTemplate>
+                        </c:MatchSummaryItemTemplateSelector.UnmatchedItemTemplate>
+                    </c:MatchSummaryItemTemplateSelector>
+                </ListView.ItemTemplateSelector>
+            </ListView>
+            <StackPanel Grid.Row="5"
+                        Orientation="Horizontal">
+                <TextBox PlaceholderText="enter Spotify token..."
+                         Text="{x:Bind VM.SpotifyToken, Mode=TwoWay}" />
+                <HyperlinkButton Margin="50,10,10,10"
+                                 Content="Get token"
+                                 NavigateUri="https://developer.spotify.com/console/post-playlist-tracks/" />
+            </StackPanel>
+            <TextBlock Grid.Row="6"
+                       Text="Scopes required: playlist-modify-public, playlist-modify-private, user-read-private, user-read-email" />
+            <Button Grid.Row="7"
+                    Margin="20"
+                    Content="Export to Spotify"
+                    Click="{x:Bind VM.ExportToSpotify}" />
+        </Grid>
+        <Border x:Name="ProgressView"
+                Visibility="Collapsed"
+                Background="#33000000">
+            <ProgressRing IsActive="True"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center" />
+        </Border>
     </Grid>
 </Page>

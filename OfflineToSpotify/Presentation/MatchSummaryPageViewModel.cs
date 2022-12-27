@@ -15,6 +15,7 @@ namespace OfflineToSpotify.Presentation
 	public class MatchSummaryPageViewModel
 	{
 		private readonly Track[] _allTracks;
+		private readonly IProgressIndicator _progressIndicator;
 
 		public int TotalCount => _allTracks.Length;
 
@@ -26,10 +27,16 @@ namespace OfflineToSpotify.Presentation
 
 		public IList<MatchSummaryItemViewModel>? Items { get; private set; }
 
-		public MatchSummaryPageViewModel(Track[] allTracks)
+		public string? SpotifyToken
+		{
+			get;
+			set;
+		}
+
+		public MatchSummaryPageViewModel(Track[] allTracks, IProgressIndicator progressIndicator)
 		{
 			_allTracks = allTracks;
-
+			_progressIndicator = progressIndicator;
 			InitializeItems();
 		}
 
@@ -68,6 +75,30 @@ namespace OfflineToSpotify.Presentation
 			bool LastMatchesIndex(int i)
 			{
 				return items.Count > 0 && items.Last() is MatchSummaryItemViewModel.TrackItem ti && ti.Index0Based == i;
+			}
+		}
+
+		public async void ExportToSpotify()
+		{
+			if (string.IsNullOrWhiteSpace(SpotifyToken))
+			{
+				return;
+			}
+
+			var helper = new PlaylistHelper(new(SpotifyToken));
+
+			using (_progressIndicator.ShowIndicator())
+			{
+				try
+				{
+					var playlist = await helper.CreatePlaylist($"{DateTime.Now:yyyyMMdd}_Imported");
+
+					await helper.AddTracksToPlaylist(playlist, _allTracks.Where(IsMatched).Select(t => t.CandidateMatch));
+				}
+				catch (Exception e)
+				{
+					throw;
+				}
 			}
 		}
 
