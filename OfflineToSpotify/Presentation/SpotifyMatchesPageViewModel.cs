@@ -152,7 +152,7 @@ namespace OfflineToSpotify.Presentation
 				return;
 			}
 			_currentTracks.Clear();
-			var currentTracks = _allTracks[(CurrentPage * PageSize)..((CurrentPage + 1) * PageSize)];
+			var currentTracks = _allTracks[(CurrentPage * PageSize)..Math.Min(_allTracks.Length, (CurrentPage + 1) * PageSize)];
 			foreach (var track in currentTracks)
 			{
 				using (_progressIndicator.ShowIndicator())
