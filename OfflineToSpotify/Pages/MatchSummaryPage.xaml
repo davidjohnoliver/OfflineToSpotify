@@ -73,7 +73,7 @@
             </ListView>
             <StackPanel Grid.Row="5"
                         Orientation="Horizontal">
-                <TextBox PlaceholderText="enter Spotify token..."
+                <TextBox PlaceholderText="enter Spotify OAuth token..."
                          Text="{x:Bind VM.SpotifyToken, Mode=TwoWay}" />
                 <HyperlinkButton Margin="50,10,10,10"
                                  Content="Get token"
