@@ -1,7 +1,8 @@
 {
   "profiles": {
     "OfflineToSpotify (Package)": {
-      "commandName": "MsixPackage"
+      "commandName": "MsixPackage",
+      "nativeDebugging": true
     },
     "OfflineToSpotify (Unpackaged)": {
       "commandName": "Project"
